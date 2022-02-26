@@ -120,7 +120,7 @@ public class ExchangeFilterFunctionsTests {
 		ExchangeFunction exchange = r -> Mono.just(mock(ClientResponse.class));
 
 		assertThatIllegalArgumentException().isThrownBy(() ->
-				ExchangeFilterFunctions.basicAuthentication("foo", "\ud83d\udca9").filter(request, exchange));
+				ExchangeFilterFunctions.basicAuthentication("foo", String.valueOf(Character.MAX_SURROGATE)).filter(request, exchange));
 	}
 
 	@Test

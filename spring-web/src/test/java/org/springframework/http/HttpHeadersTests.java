@@ -555,15 +555,27 @@ public class HttpHeadersTests {
 		String authorization = headers.getFirst(HttpHeaders.AUTHORIZATION);
 		assertThat(authorization).isNotNull();
 		assertThat(authorization.startsWith("Basic ")).isTrue();
-		byte[] result = Base64.getDecoder().decode(authorization.substring(6).getBytes(StandardCharsets.ISO_8859_1));
-		assertThat(new String(result, StandardCharsets.ISO_8859_1)).isEqualTo("foo:bar");
+		byte[] result = Base64.getDecoder().decode(authorization.substring(6).getBytes(StandardCharsets.UTF_8));
+		assertThat(new String(result, StandardCharsets.UTF_8)).isEqualTo("foo:bar");
 	}
 
 	@Test
 	void basicAuthIllegalChar() {
 		String username = "foo";
-		String password = "\u03BB";
+		String password = String.valueOf(Character.MIN_SURROGATE);
 		assertThatIllegalArgumentException().isThrownBy(() -> headers.setBasicAuth(username, password));
+	}
+
+	@Test
+	void basicAuthNonAscii() {
+		String username = "foö";
+		String password = "bär";
+		headers.setBasicAuth(username, password);
+		String authorization = headers.getFirst(HttpHeaders.AUTHORIZATION);
+		assertThat(authorization).isNotNull();
+		assertThat(authorization.startsWith("Basic ")).isTrue();
+		byte[] result = Base64.getDecoder().decode(authorization.substring(6).getBytes(StandardCharsets.UTF_8));
+		assertThat(new String(result, StandardCharsets.UTF_8)).isEqualTo("foö:bär");
 	}
 
 	@Test

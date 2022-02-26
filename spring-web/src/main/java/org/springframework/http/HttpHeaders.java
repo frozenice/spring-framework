@@ -766,11 +766,11 @@ public class HttpHeaders implements MultiValueMap<String, String>, Serializable 
 	 * Set the value of the {@linkplain #AUTHORIZATION Authorization} header to
 	 * Basic Authentication based on the given username and password.
 	 * <p>Note that this method only supports characters in the
-	 * {@link StandardCharsets#ISO_8859_1 ISO-8859-1} character set.
+	 * {@link StandardCharsets#UTF_8 UTF-8} character set.
 	 * @param username the username
 	 * @param password the password
 	 * @throws IllegalArgumentException if either {@code user} or
-	 * {@code password} contain characters that cannot be encoded to ISO-8859-1
+	 * {@code password} contain characters that cannot be encoded to UTF-8
 	 * @since 5.1
 	 * @see #setBasicAuth(String)
 	 * @see #setBasicAuth(String, String, Charset)
@@ -787,7 +787,7 @@ public class HttpHeaders implements MultiValueMap<String, String>, Serializable 
 	 * @param username the username
 	 * @param password the password
 	 * @param charset the charset to use to convert the credentials into an octet
-	 * sequence. Defaults to {@linkplain StandardCharsets#ISO_8859_1 ISO-8859-1}.
+	 * sequence. Defaults to {@linkplain StandardCharsets#UTF_8 UTF-8}.
 	 * @throws IllegalArgumentException if {@code username} or {@code password}
 	 * contains characters that cannot be encoded to the given charset
 	 * @since 5.1
@@ -1864,7 +1864,7 @@ public class HttpHeaders implements MultiValueMap<String, String>, Serializable 
 	 * @param username the username
 	 * @param password the password
 	 * @param charset the charset to use to convert the credentials into an octet
-	 * sequence. Defaults to {@linkplain StandardCharsets#ISO_8859_1 ISO-8859-1}.
+	 * sequence. Defaults to {@linkplain StandardCharsets#UTF_8 UTF-8}.
 	 * @throws IllegalArgumentException if {@code username} or {@code password}
 	 * contains characters that cannot be encoded to the given charset
 	 * @since 5.2
@@ -1878,7 +1878,7 @@ public class HttpHeaders implements MultiValueMap<String, String>, Serializable 
 		Assert.doesNotContain(username, ":", "Username must not contain a colon");
 		Assert.notNull(password, "Password must not be null");
 		if (charset == null) {
-			charset = StandardCharsets.ISO_8859_1;
+			charset = StandardCharsets.UTF_8;
 		}
 
 		CharsetEncoder encoder = charset.newEncoder();
